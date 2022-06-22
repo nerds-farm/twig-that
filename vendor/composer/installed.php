@@ -1,110 +1,104 @@
-<?php return array (
-  'root' => 
-  array (
-    'pretty_version' => 'dev-main',
-    'version' => 'dev-main',
-    'aliases' => 
-    array (
+<?php return array(
+    'root' => array(
+        'name' => '__root__',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '5276cccc70c99962d748affeedfaee755874e063',
+        'type' => 'library',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'dev' => true,
     ),
-    'reference' => '8137dc47d0cc3eb179a9185ba677ba422c619765',
-    'name' => '__root__',
-  ),
-  'versions' => 
-  array (
-    '__root__' => 
-    array (
-      'pretty_version' => 'dev-main',
-      'version' => 'dev-main',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '8137dc47d0cc3eb179a9185ba677ba422c619765',
+    'versions' => array(
+        '__root__' => array(
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '5276cccc70c99962d748affeedfaee755874e063',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'altorouter/altorouter' => array(
+            'pretty_version' => '2.0.2',
+            'version' => '2.0.2.0',
+            'reference' => 'f6fede4f94ced7c22ba63a9b8af0bf2dc38e3cb2',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../altorouter/altorouter',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'composer/installers' => array(
+            'pretty_version' => 'v2.1.1',
+            'version' => '2.1.1.0',
+            'reference' => 'af93ba6e52236418f07a278033eba6959ee5b983',
+            'type' => 'composer-plugin',
+            'install_path' => __DIR__ . '/./installers',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'symfony/polyfill-ctype' => array(
+            'pretty_version' => 'v1.26.0',
+            'version' => '1.26.0.0',
+            'reference' => '6fd1b9a79f6e3cf65f9e679b23af304cd9e010d4',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/polyfill-ctype',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'symfony/polyfill-mbstring' => array(
+            'pretty_version' => 'v1.26.0',
+            'version' => '1.26.0.0',
+            'reference' => '9344f9cb97f3b19424af1a21a3b0e75b0a7d8d7e',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/polyfill-mbstring',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'symfony/polyfill-php72' => array(
+            'pretty_version' => 'v1.26.0',
+            'version' => '1.26.0.0',
+            'reference' => 'bf44a9fd41feaac72b074de600314a93e2ae78e2',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/polyfill-php72',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'timber/timber' => array(
+            'pretty_version' => '1.19.2',
+            'version' => '1.19.2.0',
+            'reference' => 'e1460c04914c97e5d08be06d27f9df958fc17725',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../timber/timber',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'twig/cache-extension' => array(
+            'pretty_version' => 'v1.5.0',
+            'version' => '1.5.0.0',
+            'reference' => '2c243643f59132194458bd03c745b079bbb12e78',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../twig/cache-extension',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'twig/twig' => array(
+            'pretty_version' => 'v2.15.1',
+            'version' => '2.15.1.0',
+            'reference' => '3b7cedb2f736899a7dbd0ba3d6da335a015f5cc4',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../twig/twig',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'upstatement/routes' => array(
+            'pretty_version' => '0.8.2',
+            'version' => '0.8.2.0',
+            'reference' => '2fff0d92754d784529520b0f2ee5696a49089fb8',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../upstatement/routes',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
     ),
-    'altorouter/altorouter' => 
-    array (
-      'pretty_version' => '2.0.2',
-      'version' => '2.0.2.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'f6fede4f94ced7c22ba63a9b8af0bf2dc38e3cb2',
-    ),
-    'composer/installers' => 
-    array (
-      'pretty_version' => 'v1.12.0',
-      'version' => '1.12.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'd20a64ed3c94748397ff5973488761b22f6d3f19',
-    ),
-    'roundcube/plugin-installer' => 
-    array (
-      'replaced' => 
-      array (
-        0 => '*',
-      ),
-    ),
-    'shama/baton' => 
-    array (
-      'replaced' => 
-      array (
-        0 => '*',
-      ),
-    ),
-    'symfony/polyfill-ctype' => 
-    array (
-      'pretty_version' => 'v1.23.0',
-      'version' => '1.23.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '46cd95797e9df938fdd2b03693b5fca5e64b01ce',
-    ),
-    'symfony/polyfill-mbstring' => 
-    array (
-      'pretty_version' => 'v1.23.1',
-      'version' => '1.23.1.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '9174a3d80210dca8daa7f31fec659150bbeabfc6',
-    ),
-    'timber/timber' => 
-    array (
-      'pretty_version' => '1.19.1',
-      'version' => '1.19.1.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '3e213fbd3587eb36adec2d5a081824c4722a0acf',
-    ),
-    'twig/cache-extension' => 
-    array (
-      'pretty_version' => 'v1.5.0',
-      'version' => '1.5.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '2c243643f59132194458bd03c745b079bbb12e78',
-    ),
-    'twig/twig' => 
-    array (
-      'pretty_version' => 'v2.14.8',
-      'version' => '2.14.8.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '06b450a2326aa879faa2061ff72fe1588b3ab043',
-    ),
-    'upstatement/routes' => 
-    array (
-      'pretty_version' => '0.8.1',
-      'version' => '0.8.1.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '02eb866668f5478d794547aa79e73dd92a989ad9',
-    ),
-  ),
 );

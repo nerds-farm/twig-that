@@ -8,9 +8,8 @@
  * Description:       Exploit the limitless potentials of Wordpress, add dynamic content on all your pages with the semplicity of Twig placeholders.
  * Version:           1.0
  * Author:            Nerds Farm
- * Author URI:        https://nerds.farm
+ * Author URI:        https://nerds.farm/twig-that
  * Text Domain:       twig-that
- * Domain Path:       /languages
  * License:           GPL-3.0
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.txt
  *
