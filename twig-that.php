@@ -6,7 +6,7 @@
  * Plugin Name:       Twig That
  * Plugin URI:        https://nerds.farm
  * Description:       Exploit the limitless potentials of Wordpress, add dynamic content on all your pages with the semplicity of Twig placeholders.
- * Version:           1.0
+ * Version:           1.0.1
  * Author:            Nerds Farm
  * Author URI:        https://nerds.farm/twig-that
  * Text Domain:       twig-that
@@ -36,7 +36,7 @@ define('TWIG_THAT_PATH', plugin_dir_path(__FILE__));
 /**
  * Load plugin
  *
- * @since 0.1.0
+ * @since 1.0.1
  */
 function twig_that_load_plugin() {
     // Load localization file
