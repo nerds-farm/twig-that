@@ -20,7 +20,7 @@ class Wysiwyg {
     }
     
     public function add_twig_to_widget_text($text) {
-        return Twig::do_twig($text);
+        return apply_filters('thig/that', $text);
     }   
 
 }

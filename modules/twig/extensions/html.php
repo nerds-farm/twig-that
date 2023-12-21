@@ -9,18 +9,29 @@ if (!defined('ABSPATH'))
     exit; // Exit if accessed directly
 
 /**
- * Wysiwyg editor
+ * Html Widget
  *
  * @since 1.0.1
  */
-class Wysiwyg {
+class Html {
 
     public function __construct() {
-        add_filter('widget_text', [$this, 'add_twig_to_widget_text']);
+        add_filter( 'elementor/widget/render_content', [$this, 'do_twig'], 10, 2 );
     }
     
-    public function add_twig_to_widget_text($text) {
-        return Twig::do_twig($text);
+    /**
+ * Filters heading widgets and change their content.
+ *
+ * @since 1.0.0
+ * @param string                 $widget_content The widget HTML output.
+ * @param \Elementor\Widget_Base $widget         The widget instance.
+ * @return string The changed widget content.
+ */
+    public function do_twig($widget_content, $widget) {
+        if (in_array($widget->get_name(), ['html', 'include', 'heading', 'e-include-file'])) {
+            $widget_content = apply_filters('thig/that', $widget_content);
+        }
+        return $widget_content;
     }   
 
 }

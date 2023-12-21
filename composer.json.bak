@@ -1,0 +1,11 @@
+{
+    "config": {
+        "platform-check": false,
+        "allow-plugins": {
+            "composer/installers": true
+        }
+    },
+    "require": {
+        "timber/timber": "^1.18"
+    }
+}

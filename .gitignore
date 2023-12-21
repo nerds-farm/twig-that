@@ -48,3 +48,4 @@ Thumbs.db
 *.mov
 *.wmv
 /nbproject/private/
+/vendor/timber/timber/nbproject/private/

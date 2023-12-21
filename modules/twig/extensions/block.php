@@ -39,7 +39,7 @@ class Block {
                 $parsed_block[$key] = $this->recursive_twig($value);
             }
         } else {
-            $parsed_block = Twig::do_twig($parsed_block);
+            $parsed_block = apply_filters('thig/that', $parsed_block);
         }
         return $parsed_block;
     }

@@ -48,6 +48,7 @@ abstract class Module_Base {
 
     public function __construct() {
         $this->init_extensions();
+        add_action('elementor/dynamic_tags/register', [$this, 'init_tags']);
     }
 
     /**
@@ -174,10 +175,22 @@ abstract class Module_Base {
         return $elements;
     }
 
-    public function init_extensions() {
+    public function init_extensions() {        
         foreach ($this->get_elements('extensions') as $ext) {
             $class_name = $this->get_reflection()->getNamespaceName() . '\Extensions\\' . $ext;
-            $ext_obj = new $class_name();
+                $ext_obj = new $class_name();
+            
+        }
+    }
+    
+    public function init_tags($dynamic_tags) {
+        /** @var \Elementor\Core\DynamicTags\Manager $module */
+        $module = \Elementor\Plugin::$instance->dynamic_tags;  
+        foreach ($this->get_elements('tags') as $tag) {
+            $class_name = $this->get_reflection()->getNamespaceName() . '\Tags\\' . $tag;
+                $tag_obj = new $class_name();
+                $module->register($tag_obj);
+            
         }
     }
 

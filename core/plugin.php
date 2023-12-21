@@ -95,6 +95,7 @@ class Plugin {
             $filename = \TwigThat\Core\Helper::class_to_path($class);
             if (is_readable($filename)) {
                 include_once( $filename );
+                //var_dump($filename);
             } else {
                 // fallback
                 $plugin_path = \TwigThat\Core\Helper::get_plugin_path($class);
