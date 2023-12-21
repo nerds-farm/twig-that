@@ -9,18 +9,18 @@ if (!defined('ABSPATH'))
     exit; // Exit if accessed directly
 
 /**
- * Shortcode
+ * Wysiwyg editor
  *
  * @since 1.0.1
  */
-class Shortcode {
+class Wysiwyg {
 
     public function __construct() {
-        //add_filter( 'pre_do_shortcode_tag', [$this, 'add_twig_to_widget_text'], 10, 3);
+        add_filter('widget_text', [$this, 'add_twig_to_widget_text']);
     }
     
-    public function add_twig_to_widget_text($tag, $attr, $m) {
-        return Twig::do_twig($tag);
+    public function add_twig_to_widget_text($text) {
+        return Twig::do_twig($text);
     }   
 
 }
