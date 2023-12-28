@@ -64,6 +64,7 @@ class Twig extends Module_Base {
         if (!$sanitize_string) {
             return $string;
         }
+        //var_dump($string);
 
         global $wp_query, $wp;
         global $post;
@@ -77,7 +78,7 @@ class Twig extends Module_Base {
         if (!empty($data)) {
             foreach ($data as $key => $value) {
                 if (in_array($key, self::$objects)) {
-                    $obj_id = $this->get_id($value);
+                    $obj_id = self::get_id($value);
                     if ($obj_id) {
                         if ('posts' == $key) {
                             $data[$key] = new \Timber\PostQuery($wp_query);
@@ -334,7 +335,7 @@ class Twig extends Module_Base {
         return $filters;
     }
     
-    public function get_id($obj = null) {
+    public static function get_id($obj = null) {
         if (empty($obj)) {
             return get_the_ID();
         }

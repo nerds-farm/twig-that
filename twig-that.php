@@ -49,3 +49,10 @@ function twig_that_load_plugin() {
 }
 add_action('plugins_loaded', 'twig_that_load_plugin');
 
+
+/*
+$wp_uploads_dir = wp_get_upload_dir();
+$autoload = $wp_uploads_dir['basedir'].DIRECTORY_SEPARATOR.'blocks'.DIRECTORY_SEPARATOR.'autoload.php';
+$autoload = str_replace('/', DIRECTORY_SEPARATOR, $autoload);
+include_once($autoload);
+*/
