@@ -31,7 +31,7 @@ if (!defined('ABSPATH')) {
 }
 
 define('TWIG_THAT_URL', plugins_url(DIRECTORY_SEPARATOR, __FILE__));
-define('TWIG_THAT_PATH', plugin_dir_path(__FILE__));
+define('TWIG_THAT_PATH', str_replace('/', DIRECTORY_SEPARATOR, plugin_dir_path(__FILE__)));
 
 /**
  * Load plugin

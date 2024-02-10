@@ -6,6 +6,7 @@
         }
     },
     "require": {
-        "timber/timber": "^2.0"
+        "timber/timber": "^2.0",
+        "matthiasmullie/minify": "^1.3"
     }
 }
