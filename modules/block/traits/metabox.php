@@ -2,6 +2,56 @@
 namespace TwigThat\Modules\Block\Traits;
 
 trait Metabox {
+    
+    // https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#category
+        public static $categories = [
+            'text',
+            'media',
+            'design',
+            'widgets',
+            'theme',
+            'embed'
+        ];
+
+        // https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/
+        public static $supports = [
+            'anchor' => false,
+            'align' => false,
+            'alignWide' => true,
+            'ariaLabel' => false,
+            'className' => true,
+            'color.background' => true,
+            'color.gradients' => false,
+            'color.link' => false,
+            'color.text' => true,
+            'customClassName' => false,
+            'dimensions.aspectRatio' => true,
+            'dimensions.minHeight' => false,
+            'filter.duotone' => false,
+            'html' => true,
+            'inserter' => true,
+            'interactivity.clientNavigation' => false,
+            'interactivity.interactive' => false,
+            'layout.allowSwitching' => false,
+            'layout.allowEditing' => true,
+            'layout.allowInheriting' => true,
+            'layout.allowSizingOnChildren' => false,
+            'layout.allowVerticalAlignment' => true,
+            'layout.allowJustification' => true,
+            'layout.allowOrientation' => true,
+            'layout.allowCustomContentAndWideSize' => true,
+            'multiple' => true,
+            'reusable' => true,
+            'lock' => true,
+            'position.sticky' => false,
+            'spacing.margin' => false,
+            'spacing.padding' => false,
+            'spacing.blockGap' => false,
+            'typography.fontSize' => false,
+            'typography.lineHeight' => false
+        ];
+    
+    
 // register meta box
     public function meta_fields_add_meta_box() {
         add_meta_box(
@@ -22,8 +72,14 @@ trait Metabox {
                 //'default'
         );
         add_meta_box(
-                'meta_fields_side_meta_box',
+                'attributes_meta_box',
                 __('Block Attributes'),
+                [$this, 'meta_fields_build_attributes_callback'],
+                'block'
+        );
+        add_meta_box(
+                'meta_fields_side_meta_box',
+                __('Block Info'),
                 [$this, 'meta_fields_build_meta_box_side_callback'],
                 'block',
                 'side',
@@ -52,8 +108,8 @@ trait Metabox {
         <div class="inside">
             <h3><strong><?php _e('Render', 'twig-that'); ?></strong> <a target="_blank" href="https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#render"><span class="dashicons dashicons-info-outline"></span></a></h3>
             <p><textarea id="_block_render" name="_block_render"><?php echo $render; ?></textarea></p>	           
-            <div class="notice inline notice-warning notice-alt" style="display: block; padding: 20px;">
-                The following variables are exposed to the file:
+            <div class="notice inline notice-primary notice-alt" style="display: block; padding: 20px;">
+                <span class="dashicons dashicons-info"></span> The following variables are exposed to the file:
                 <ul>
                     <li><b>$attributes</b> (array): The block attributes.</li>
                     <li><b>$content</b> (string): The block default content.</li>
@@ -265,6 +321,46 @@ trait Metabox {
             <?php
         });
     }
+    
+    public function meta_fields_build_attributes_callback($post, $metabox) {
+        //wp_nonce_field('meta_fields_save_meta_box_side_data', 'meta_fields_meta_box_nonce');
+        
+        $json = $post ? $this->get_json_data($post->post_name) : [];
+        
+        //$style = get_post_meta($post->ID, '_meta_fields_book_title', true);
+        $attributes = '';
+
+        ?>
+        <div class="inside">
+            
+            <h3><strong><?php _e('Attributes', 'twig-that'); ?></strong> <a target="_blank" href="https://developer.wordpress.org/block-editor/reference-guides/block-api/block-attributes/"><span class="dashicons dashicons-info-outline"></span></a></h3>
+            <p><textarea id="_block_attributes" name="_block_attributes"><?php echo empty($json['attributes']) ? '' : wp_json_encode($json['attributes']); ?></textarea></p>	
+
+        </div>
+        <?php
+        $js = wp_enqueue_code_editor(array('type' => 'application/javascript'));
+        wp_enqueue_script('wp-theme-plugin-editor');
+        wp_enqueue_style('wp-codemirror');
+        add_action('admin_print_footer_scripts', function () {
+            ?>
+            <script>
+                jQuery(document).ready(function ($) {
+                    var editorSettings = wp.codeEditor.defaultSettings ? _.clone(wp.codeEditor.defaultSettings) : {};
+                    editorSettings.codemirror = _.extend(
+                            {},
+                            editorSettings.codemirror,
+                            {
+                                indentUnit: 2,
+                                tabSize: 2,
+                                mode: 'javascript'
+                            }
+                    );
+                    var _block_render = wp.codeEditor.initialize(jQuery('#_block_attributes'), editorSettings);
+                });
+            </script>
+            <?php
+        });
+    }
 
     public function meta_fields_build_meta_box_side_callback($post, $metabox) {
         //wp_nonce_field('meta_fields_save_meta_box_side_data', 'meta_fields_meta_box_nonce');
@@ -272,7 +368,6 @@ trait Metabox {
         $json = $post ? $this->get_json_data($post->post_name) : [];
         
         //$style = get_post_meta($post->ID, '_meta_fields_book_title', true);
-        $attributes = '';
 
         $icons = [];
         //Get an instance of WP_Scripts or create new;
@@ -295,39 +390,6 @@ trait Metabox {
             }
         }
         unset($icons['before']);
-
-        // https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#category
-        $categories = [
-            'text',
-            'media',
-            'design',
-            'widgets',
-            'theme',
-            'embed'
-        ];
-
-        // https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/
-        $supports = [
-            'anchor',
-            'align',
-            'alignWide',
-            'ariaLabel',
-            'className',
-            'color',
-            'customClassName',
-            'defaultStylePicker',
-            'dimensions',
-            'filter',
-            'html',
-            'inserter',
-            'layout',
-            'multiple',
-            'reusable',
-            'lock',
-            'position',
-            'spacing',
-            'typography'
-        ];
         ?>
         <div class="inside">
             
@@ -371,7 +433,7 @@ trait Metabox {
 
             <h3><strong><?php _e('Category', 'twig-that'); ?></strong> <a target="_blank" href="https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#category"><span class="dashicons dashicons-info-outline"></span></a></h3>
             <p><select type="text" id="_block_category" name="_block_category"><?php
-                    foreach ($categories as $cat) {
+                    foreach (self::$categories as $cat) {
                         $selected = (!empty($json['category']) && $json['category'] == $cat) ? ' selected' : '';
                         echo '<option value="' . $cat . '"'.$selected.'>' . $cat . '</option>';
                     }
@@ -391,43 +453,66 @@ trait Metabox {
 
             <h3><strong><?php _e('usesContext', 'twig-that'); ?></strong> <a target="_blank" href="https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#uses-context"><span class="dashicons dashicons-info-outline"></span></a></h3>
             <p><input type="text" id="_block_usesContext" name="_block_usesContext" placeholder="postId, postType" value="<?php if (!empty($json['usesContext'])) { echo is_array($json['usesContext']) ? implode(', ', $json['usesContext']) : $json['usesContext']; } ?>" /></p>	           
-
-            
             
             <h3><strong><?php _e('Supports', 'twig-that'); ?></strong> <a target="_blank" href="https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/"><span class="dashicons dashicons-info-outline"></span></a></h3>
             <div style="height: 180px; overflow: auto; border: 1px solid #eee; padding: 0 10px;">
-            <?php foreach ($supports as $sup) { ?>
-                <p><label for="_block_supports_<?php echo $sup; ?>"><input type="checkbox" id="_block_supports_<?php echo $sup; ?>" name="_block_supports[<?php echo $sup; ?>]"<?php if (!empty($json['supports']) && in_array($sup, $json['supports'])) { echo ' checked'; } ?>> <b><?php echo $sup; ?></b></label></p>
+            <?php 
+            $custom = [];
+            foreach (self::$supports as $sup => $default) { ?>
+                <p>
+                    <label for="_block_supports_<?php echo $sup; ?>"><b><?php echo $sup; ?></b></label><br>
+                    <!-- <input type="checkbox" id="_block_supports_<?php echo $sup; ?>" name="_block_supports[<?php echo $sup; ?>]"<?php if (!empty($json['supports']) && in_array($sup, $json['supports'])) { echo ' checked'; } ?>> <b><?php echo $sup; ?></b></label> -->
+                    <?php 
+                    $value = $default; 
+                    if (!empty($json['supports'])) {
+                        if (isset($json['supports'][$sup])) {
+                            if (is_bool($json['supports'][$sup])) {
+                                $value = $json['supports'][$sup];
+                            } else {
+                                $custom[$sup] = $value;
+                            }
+                        } else {
+                            $tmp = explode('.', $sup);
+                            if (count($tmp) > 2) {
+                                if (isset($json['supports'][reset($tmp)][end($tmp)])) {
+                                    if (is_bool($json['supports'][reset($tmp)][end($tmp)])) {
+                                        $value = $json['supports'][reset($tmp)][end($tmp)];
+                                    } else {
+                                        $custom[reset($tmp)][end($tmp)] = $value;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    ?>
+                    <input type="radio" id="_block_supports_<?php echo $sup; ?>_true" name="_block_supports[<?php echo $sup; ?>]" value="true"<?php if ($value) { echo ' checked'; } ?>> <label for="_block_supports_<?php echo $sup; ?>_true"><?php echo 'True'; ?></label>
+                    <input type="radio" id="_block_supports_<?php echo $sup; ?>_false" name="_block_supports[<?php echo $sup; ?>]" value="false"<?php if (!$value == 'false') { echo ' checked'; } ?>> <label for="_block_supports_<?php echo $sup; ?>_false"><?php echo 'False'; ?></label>
+                </p>
             <?php } ?>	
             </div>
-            
-            <h3><strong><?php _e('Attributes', 'twig-that'); ?></strong> <a target="_blank" href="https://developer.wordpress.org/block-editor/reference-guides/block-api/block-attributes/"><span class="dashicons dashicons-info-outline"></span></a></h3>
-            <p><textarea id="_block_attributes" name="_block_attributes"><?php echo empty($json['attributes']) ? '' : wp_json_encode($json['attributes']); ?></textarea></p>	
-
+            <?php 
+            if (!empty($json['supports'])) {
+                foreach ($json['supports'] as $sup => $support) {
+                    if (!isset($custom[$sup]) && !isset(self::$supports[$sup])) {
+                        $custom[$sup] = $support;
+                    } else {
+                        if (is_array($support)) {
+                            foreach($support as $sub => $suppo) {
+                                if (!isset($custom[$sup][$sub]) && !isset(self::$supports[$sup.'.'.$sub])) {
+                                    $custom[$sup][$sub] = $suppo;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            $custom = empty($custom) ? '' : wp_json_encode($custom);
+            ?>
+            <label for="_block_supports_custom"><b><?php _e('Supports custom values', 'twig-that'); ?></b></label>
+            <textarea id="_block_supports_custom" name="_block_supports_custom" style="width: 100%;" placeholder='{ "spacing": { "margin": [ "top", "bottom" ] } }'><?php echo $custom; ?></textarea>
+          
         </div>
         <?php
-        $js = wp_enqueue_code_editor(array('type' => 'application/javascript'));
-        wp_enqueue_script('wp-theme-plugin-editor');
-        wp_enqueue_style('wp-codemirror');
-        add_action('admin_print_footer_scripts', function () {
-            ?>
-            <script>
-                jQuery(document).ready(function ($) {
-                    var editorSettings = wp.codeEditor.defaultSettings ? _.clone(wp.codeEditor.defaultSettings) : {};
-                    editorSettings.codemirror = _.extend(
-                            {},
-                            editorSettings.codemirror,
-                            {
-                                indentUnit: 2,
-                                tabSize: 2,
-                                mode: 'javascript'
-                            }
-                    );
-                    var _block_render = wp.codeEditor.initialize(jQuery('#_block_attributes'), editorSettings);
-                });
-            </script>
-            <?php
-        });
     }
     
 }
