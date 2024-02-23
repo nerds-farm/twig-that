@@ -334,7 +334,7 @@ trait Metabox {
         <div class="inside">
             
             <h3><strong><?php _e('Attributes', 'twig-that'); ?></strong> <a target="_blank" href="https://developer.wordpress.org/block-editor/reference-guides/block-api/block-attributes/"><span class="dashicons dashicons-info-outline"></span></a></h3>
-            <p><textarea id="_block_attributes" name="_block_attributes"><?php echo empty($json['attributes']) ? '' : wp_json_encode($json['attributes']); ?></textarea></p>	
+            <p><textarea id="_block_attributes" name="_block_attributes"><?php echo empty($json['attributes']) ? '' : wp_json_encode($json['attributes'], JSON_PRETTY_PRINT); ?></textarea></p>	
 
         </div>
         <?php
@@ -403,6 +403,7 @@ trait Metabox {
 
             <h3><strong><?php _e('Icon', 'twig-that'); ?></strong> <a target="_blank" href="https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#icon"><span class="dashicons dashicons-info-outline"></span></a></h3>
             <p><select type="text" id="_block_icon" name="_block_icon"><?php
+            if (empty($post->post_name)) $json['icon'] = 'smiley';
             foreach ($icons as $icon) {
                 $selected = (!empty($json['icon']) && $json['icon'] == $icon) ? ' selected' : '';
                 echo '<option value="' . $icon . '"'.$selected.'>' . $icon . '</option>';
@@ -449,7 +450,7 @@ trait Metabox {
             <p><input type="text" id="_block_ancestor" name="_block_ancestor" placeholder="my-block/product"  value="<?php if (!empty($json['ancestor'])) { echo is_array($json['ancestor']) ? implode(', ', $json['ancestor']) : $json['ancestor']; } ?>" /></p>	           
             
             <h3><strong><?php _e('providesContext', 'twig-that'); ?></strong> <a target="_blank" href="https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#provides-context"><span class="dashicons dashicons-info-outline"></span></a></h3>
-            <p><textarea id="_block_providesContext" name="_block_providesContext" placeholder='"my-plugin/recordId": "recordId"'><?php if (!empty($json['providesContext'])) { echo $providesContext = wp_json_encode($json['providesContext']); } ?></textarea></p>	
+            <p><textarea id="_block_providesContext" name="_block_providesContext" placeholder='"my-plugin/recordId": "recordId"'><?php if (!empty($json['providesContext'])) { echo $providesContext = wp_json_encode($json['providesContext'], JSON_PRETTY_PRINT); } ?></textarea></p>	
 
             <h3><strong><?php _e('usesContext', 'twig-that'); ?></strong> <a target="_blank" href="https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#uses-context"><span class="dashicons dashicons-info-outline"></span></a></h3>
             <p><input type="text" id="_block_usesContext" name="_block_usesContext" placeholder="postId, postType" value="<?php if (!empty($json['usesContext'])) { echo is_array($json['usesContext']) ? implode(', ', $json['usesContext']) : $json['usesContext']; } ?>" /></p>	           
@@ -506,10 +507,10 @@ trait Metabox {
                     }
                 }
             }
-            $custom = empty($custom) ? '' : wp_json_encode($custom);
+            $custom = empty($custom) ? '' : wp_json_encode($custom, JSON_PRETTY_PRINT);
             ?>
             <label for="_block_supports_custom"><b><?php _e('Supports custom values', 'twig-that'); ?></b></label>
-            <textarea id="_block_supports_custom" name="_block_supports_custom" style="width: 100%;" placeholder='{ "spacing": { "margin": [ "top", "bottom" ] } }'><?php echo $custom; ?></textarea>
+            <textarea rows="10" id="_block_supports_custom" name="_block_supports_custom" style="width: 100%;" placeholder='{ "spacing": { "margin": [ "top", "bottom" ] } }'><?php echo $custom; ?></textarea>
           
         </div>
         <?php
